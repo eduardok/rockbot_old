@@ -1,0 +1,12 @@
+Package: Rockbot-Editor
+Version: 0.1-6
+Section: games
+Priority: optional
+Architecture: i386
+Depends: rockbot (>= 0.1), libqtcore4 (>= 4.7.0), libqtgui4 (>= 4.7.0)
+Maintainer: Iuri Fiedoruk <protoman@upperland.net>
+Description: This is a stage editor for Rockbot, a game engine, similar to classical
+ (1 to 6, 9 and 10) Megaman (Rockman in Japan), programmed in C with the multi-platform library SDL,
+ counting also with a stage editor made in C++ with Qt library from Nokia.
+ Currently it have ports to Linux, Windows, Playstation 2 and Nintendo DS.
+ .

@@ -1,0 +1,14 @@
+common.h
+data/fonts/license.txt
+data/sala1.txt
+editor.c
+editor.h
+game.c
+game.h
+graphics.h
+include/editor_pallete.h
+include/headers.h
+input.h
+linconio.h
+ps2_modules.h
+sprites1.c

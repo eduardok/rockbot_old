@@ -1,0 +1,34 @@
+BINS = game.elf 
+
+
+OBJS = SJPCM.s cdvd.s usbd.s usbhdfsd.s cdvd_rpc.o
+EE_INCS = -DPLAYSTATION=1 -DNUM=100 -DUSE_RWOPS -I../include -I./include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/ports/include -I../common
+EE_LIBS = cdvd_rpc.o cdvd.s usbd.s usbhdfsd.s SJPCM.s -L. -lc -L$(PS2DEV)/gsKit/lib -L../lib -L$(PS2SDK)/ports/lib -lSDL_image -ljpeg -ltiff -lpng -lz -lm -lcdvd -ldebug -lSDL_ttf -lsdlmixer -lfreetype -lm -lcdvd -lsdl -lc -lm -lc -lsyscall -lkernel
+EXTRA_FLAGS = -DPLAYSTATION=1 -DNUM=100 
+
+all: $(OBJS) $(BINS)
+
+install:
+
+%.elf : %.o $(PS2SDK)/ee/startup/crt0.o
+	$(EE_CXX) -mno-crt0 -T$(PS2SDK)/ee/startup/linkfile $(EE_LDFLAGS) \
+		-o $@ $(PS2SDK)/ee/startup/crt0.o $< $(EE_LIBS)
+
+clean:
+	rm -f $(BINS) $(OBJS)
+
+SJPCM.s : SJPCM.irx
+	bin2s SJPCM.irx SJPCM.s SJPCM
+
+cdvd.s : cdvd.irx
+	bin2s cdvd.irx cdvd.s cdvd
+
+usbd.s : usbd.irx
+	bin2s usbd.irx usbd.s usbd
+
+usbhdfsd.s : usbhdfsd.irx
+	bin2s usbhdfsd.irx usbhdfsd.s usbhdfsd
+
+include $(PS2SDK)/Makefile.pref
+include $(PS2SDK)/Makefile.eeglobal
+

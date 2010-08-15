@@ -1,0 +1,2 @@
+gcc -I/usr/include/SDL -I/usr/include -I. -I./include -L/usr/lib -L/usr/X11R6/lib -lX11 -lSDL_mixer -lSDL_image -lSDL editor.c -o editor
+gcc -I/usr/include/SDL -I/usr/include -I. -I./include -L/usr/lib -L/usr/X11R6/lib -lX11 -lSDL_mixer -lSDL_image -lSDL game.c -o game

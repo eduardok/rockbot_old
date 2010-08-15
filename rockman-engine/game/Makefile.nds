@@ -1,0 +1,195 @@
+#---------------------------------------------------------------------------------
+# Clear the implicit built in rules
+#---------------------------------------------------------------------------------
+.SUFFIXES:
+#---------------------------------------------------------------------------------
+ifeq ($(strip $(DEVKITARM)),)
+$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
+endif
+include $(DEVKITARM)/ds_rules
+
+#---------------------------------------------------------------------------------
+# TARGET is the name of the output, if this ends with _mb generates a multiboot image
+# BUILD is the directory where object files & intermediate files will be placed
+# SOURCES is a list of directories containing source code
+# INCLUDES is a list of directories containing extra header files
+#---------------------------------------------------------------------------------
+TARGET		:=	rockbot
+BUILD		:=	build
+SOURCES		:=	.
+INCLUDES	:=
+DATA		:=	data.nds
+MUSIC		:=	maxmod_data
+GAME_TITLE	:=	Rockbot beta 6
+GAME_SUBTITLE1	:=	rockbot.upperland.net
+GAME_SUBTITLE2	:=	www.devkitpro.org
+#---------------------------------------------------------------------------------
+# options for code generation
+#---------------------------------------------------------------------------------
+ARCH	:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
+# CC := arm-eabi-g++
+CC := arm-eabi-gcc
+CFLAGS	:=	-g -Wall -O2\
+ 			-fomit-frame-pointer\
+			-ffast-math \
+			$(ARCH)
+
+CFLAGS	+=	$(INCLUDE) -DARM9 -DNINTENDODS
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
+ASFLAGS	:=	-g $(ARCH)
+LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+
+#---------------------------------------------------------------------------------
+# path to tools - this can be deleted if you set the path in windows
+#---------------------------------------------------------------------------------
+export PATH		:=	$(DEVKITARM)/bin:$(PATH)
+
+#---------------------------------------------------------------------------------
+# any extra libraries we wish to link with the project
+#---------------------------------------------------------------------------------
+LIBS	:=	-lnds9 -lfat -lSDL -ljpeg -lpng -lz -lSDL_image -lm -lSDL_ttf -lfreetype -lSDL_mixer  -lm -lc -ljpeg -lpng -lz -lSDL -lnds9 -lfat -lmm9 -lm
+#-lSDL_image -ljpeg -ltiff -lpng -lz -lm -lcdvd -ldebug -lSDL_ttf -lfreetype -lm -lcdvd -lsdlmixer -lsdl -lc -lm -lc -lsyscall -lkernel
+#---------------------------------------------------------------------------------
+# list of directories containing libraries, this must be the top level containing
+# include and lib
+#---------------------------------------------------------------------------------
+LIBDIRS	:=	$(LIBNDS)
+
+#---------------------------------------------------------------------------------
+# no real need to edit anything past this point unless you need to add additional
+# rules for different file extensions
+#---------------------------------------------------------------------------------
+ifneq ($(BUILD),$(notdir $(CURDIR)))
+#---------------------------------------------------------------------------------
+
+export OUTPUT	:=	$(CURDIR)/$(TARGET)
+
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+export PATH	:=	$(DEVKITARM)/bin:$(PATH)
+export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+
+#---------------------------------------------------------------------------------
+# automatically build a list of object files for our project
+#---------------------------------------------------------------------------------
+#CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CFILES		:=	game.c
+CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bin
+
+export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MUSIC)/*.*)),$(CURDIR)/$(MUSIC)/$(dir))
+
+#---------------------------------------------------------------------------------
+# use CXX for linking C++ projects, CC for standard C
+#---------------------------------------------------------------------------------
+ifeq ($(strip $(CPPFILES)),)
+#---------------------------------------------------------------------------------
+	export LD	:=	$(CC)
+#---------------------------------------------------------------------------------
+else
+#---------------------------------------------------------------------------------
+	export LD	:=	$(CXX)
+#---------------------------------------------------------------------------------
+endif
+#---------------------------------------------------------------------------------
+
+export OFILES	:= $(BINFILES:.bin=.o) $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+
+#---------------------------------------------------------------------------------
+# build a list of include paths
+#---------------------------------------------------------------------------------
+export OFILES	:=	$(addsuffix .o, $(BINFILES))\
+					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+
+export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
+					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					-I$(CURDIR)/$(BUILD) -I. -I./include -I../common -I/arquivos/programas/devel/rockbot/common -I/arquivos/programas/devel/rockbot/game/include -I/arquivos/programas/devel/rockbot/game -I/arquivos/programas/devel/SDK/nintendoDS/devkitpro.new/PAlib/include/nds
+
+export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+
+.PHONY: $(BUILD) clean
+
+#---------------------------------------------------------------------------------
+$(BUILD):
+	@[ -d $@ ] || mkdir -p $@
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile.nds
+
+#---------------------------------------------------------------------------------
+clean:
+	@echo clean ...
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).arm9 $(TARGET).ds.gba
+
+#---------------------------------------------------------------------------------
+else
+
+DEPENDS	:=	$(OFILES:.o=.d)
+
+#---------------------------------------------------------------------------------
+# main targets
+#---------------------------------------------------------------------------------
+$(OUTPUT).ds.gba	: 	$(OUTPUT).nds
+$(OUTPUT).nds		: 	$(OUTPUT).arm9
+$(OUTPUT).arm9		:	$(OUTPUT).elf
+$(OUTPUT).elf		:	$(OFILES)
+
+#---------------------------------------------------------------------------------
+# rule to build soundbank from music files
+#---------------------------------------------------------------------------------
+soundbank.bin : $(AUDIOFILES)
+#---------------------------------------------------------------------------------
+	@mmutil $^ -d -osoundbank.bin -hsoundbank.h
+
+#---------------------------------------------------------------------------------
+# This rule links in binary data with the .bin extension
+#---------------------------------------------------------------------------------
+%.bin.o	:	%.bin
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+
+#---------------------------------------------------------------------------------
+%.bmp.o	:	%.bmp
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+%.txt.o	:	%.txt
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+
+#---------------------------------------------------------------------------------
+%.png.o	:	%.png
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+%.ttf.o	:	%.ttf
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+%.mid.o	:	%.mid
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+%.map.o	:	%.map
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+
+-include $(DEPENDS)
+
+#---------------------------------------------------------------------------------------
+endif
+#---------------------------------------------------------------------------------------

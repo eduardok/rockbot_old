@@ -1,0 +1,72 @@
+#
+# update this variable to wherever you installed the OpenXDK libraries
+#
+# sudo ln -s /usr/local/openxdk/bin/gcc /usr/bin/i386-pc-xbox-gcc
+# sudo ln -s /usr/local/openxdk/bin/ar /usr/bin/i386-pc-xbox-ar
+# sudo ln -s /usr/local/openxdk/bin/ranlib /usr/bin/i386-pc-xbox-ranlib
+# sudo ln -s /usr/local/openxdk/bin/ar /usr/bin/cru
+PREFIX = /usr/local/openxdk
+
+CC = i386-pc-xbox-gcc
+CXBE = cxbe
+
+SDLFLAGS = -DENABLE_XBOX -DDISABLE_CDROM -DXBOX
+CC_FLAGS = -c -g -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386 $(SDLFLAGS)
+INCLUDE  = -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include -I$(PREFIX)/include/SDL -I. -I./include -I../common
+
+CLINK = -nostdlib
+ALIGN = -Wl,--file-alignment,0x20 -Wl,--section-alignment,0x20 
+SHARED = -shared
+ENTRYPOINT = -Wl,--entry,_WinMainCRTStartup 
+STRIP = -Wl,--strip-all
+LD_FLAGS = $(CLINK) $(ALIGN) $(SHARED) $(ENTRYPOINT) $(STRIP)
+LD_DIRS = -L$(PREFIX)/i386-pc-xbox/lib -L$(PREFIX)/lib 
+#LD_LIBS  = $(LD_DIRS) -lSDL -lopenxdk -lhal -lc -lhal -lc -lusb -lxboxkrnl -lSDL_image -ljpeg -lpng -lz -lm -lSDL_ttf -lfreetype -lSDL_Mixer
+LD_LIBS  = $(LD_DIRS) -lSDL -lSDL_image -lSDL_Mixer -lopenxdk -lhal -lc -lhal -lc -lusb -lxboxkrnl -lSDL_image -ljpeg -lpng -lz -lm -lSDL_ttf -lfreetype -lm -lSDL_Mixer -lc -lm -lc
+
+all: game.exe
+
+.c.o:
+	$(CC) -c $< $(CC_FLAGS) $(INCLUDE)
+
+game.exe: game.o
+	$(CC) -o $@ $< $(LD_LIBS) $(LD_FLAGS)
+	$(CXBE) -TITLE:"$@" -DUMPINFO:"blah.cxbe" -OUT:"blah.xbe" $@ > /dev/null
+
+clean: 
+	rm -f *.o *.exe *.dll *.xbe *.cxbe
+
+
+#BINS = game.elf 
+#
+#
+#OBJS = cdvd.s usbd.s usbhdfsd.s cdvd_rpc.o
+#EE_INCS = -DPLAYSTATION=1 -DNUM=100 -I../include -I./include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/ports/include -I../common
+#EE_LIBS = cdvd_rpc.o cdvd.s usbd.s usbhdfsd.s -L. -lc -L$(PS2DEV)/gsKit/lib -L../lib -L$(PS2SDK)/ports/lib -lSDL_image -ljpeg -ltiff -lpng -lz -lm -lsdl -lcdvd -ldebug -lSDL_ttf -lfreetype -lm -lcdvd
+#EXTRA_FLAGS = -DPLAYSTATION=1 -DNUM=100
+#
+#all: $(OBJS) $(BINS)
+#
+#install:
+#
+#%.elf : %.o $(PS2SDK)/ee/startup/crt0.o
+#	$(EE_CC) -mno-crt0 -T$(PS2SDK)/ee/startup/linkfile $(EE_LDFLAGS) \
+#		-o $@ $(PS2SDK)/ee/startup/crt0.o $< $(EE_LIBS)
+#
+#clean:
+#	rm -f $(BINS) $(OBJS)
+#
+#
+#cdvd.s : cdvd.irx
+#	bin2s cdvd.irx cdvd.s cdvd
+#
+#usbd.s : usbd.irx
+#	bin2s usbd.irx usbd.s usbd
+#
+#usbhdfsd.s : usbhdfsd.irx
+#	bin2s usbhdfsd.irx usbhdfsd.s usbhdfsd
+#
+#
+#include $(PS2SDK)/Makefile.pref
+#include $(PS2SDK)/Makefile.eeglobal
+

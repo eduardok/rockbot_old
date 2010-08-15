@@ -1,0 +1,246 @@
+Beta 2:
+	DONE - revise and increment NES palette to use current black colors (add a strong yellow for Betabot)
+	DONE - add ESC key to leave game in intros too
+	DONE - fix the screen's left side extra one pixel
+	DONE - fix NPC sprite background overlapping PCs
+	DONE - change NPC graphic
+	DONE - fix bug that players are one pixel above ground
+	DONE - fix scrolling to make floor always visible
+	DONE - vertical scrolling together with horizontal not working
+	DONE - a dead NPC is still blocking the shoots
+	DONE - NPC animation
+
+Beta 3:
+	DONE - one/two player mode
+	  a) remove player 2 from move/clear/show functions
+	  b) scroll with only one player
+	  c) select one or two players
+	  d) on PC, P1 can use both joy1 and keyboard
+	DONE - allow multiple instances of a same NPC (to reuser the same graphics in a different position)
+	DONE - adjust players initial position
+	DONE - add players HP bars
+	DONE - fix collision verification when falling from a jump and moving left/right (still needs more work)
+	DONE - make NPC shield itself (shiled flag, plus frame zero in animation)
+	DONE - player hit animation
+	DONE - add collision verify into player hit animation to not move where it can't
+	DONE - NPC hit animation
+	DONE - player hit animation
+	DONE - make players loose 3 hit points when touching a NPC
+	DONE - fix jump+shoot and walk+shoot animation
+	DONE - player teleport animation in stage start
+	DONE - "ready" text animation on stage start
+	DONE - align hit animation centered vertically and horizontally to the player or npc
+	DONE - editor: add fill tool (still needs work for non-continual areas like a square)
+	NOT  - separate hit into NPC check into a separate function and call it even if player is stopped
+	DONE - make NPC shoot
+	DONE - NPC shoot must diminish 1 HP from players when hit them
+	DONE - NPC killed animation
+	DONE - editor: show locked areas only when in lock-mode
+	DONE - editor: always show grid
+	DONE - map PS2 joystick buttons correctly
+	DONE - fix timing for PS2
+	DONE - use timers instead of counters
+	DONE - adjust timings
+	DONE - npc face to RIGHT
+	DONE - npc shoot from left to right
+	DONE - optimize sprites: only clear-draw if made scroll or another sprite is over it, make it very short
+	DONE - initialize units for PS2 according to need (use argc to find run path)
+	DONE - 2 player on pc freezes when there is no joystick attached
+	DONE - player hit from shot coming from left, must face left
+	DONE - finish player sprites adjustments (teleport on P2, p1 new face)
+	DONE - fix small underscreen bug on top of the screen (changed map, still a mistery)
+	DONE - show projectile more near to the hit target (is vanishing too soon)
+	DONE - underscreen when player hit is doing something wrong, drawing background from previous version AFTER moving
+	DONE - fix scrolling that is goind beyound the end of screen width
+	DONE - create a complete map (without boss)
+	DONE - add a small text in the stage ending (beta and credits)
+	DONE - shots are moving in the Y axies when scrolling
+	DONE - fix npc-player colision function for PS2
+	DONE - make linux version run from anywhere (and not only from ./)
+	DONE - create an official PS2 build
+	DONE - create deb package for Ubuntu/Linux
+
+KNOWN BUGS:
+	- projectiles are clearning the screen in the wrong position (above)
+	- sometimes the game freezes
+	- colision detection have a bug that allows player to "walk in the air"
+
+
+Beta 4:
+
+
+	DONE _ npc turns to the side of player when shooting
+	DONE - after hit, jump do not work first time button is pressed
+	DONE - free graphics and load them in loadMap
+	DONE - EDITOR: hold mouse button to edit
+	DONE - ready is showing some trash before finishing
+	DONE - do not allow move when ready is still showing
+	DONE - use ready with ttf kong text
+	DONE - sometimes jump attack frame stays forever
+	DONE - adjust all images to new palette with the 3 key colors
+	DONE - NPC is shooting, even if it was edited to not do it
+	DONE - must restart the colorcycling when swapping screens/maps
+	DONE - fix bug in NPC rendering
+	DONE - only move/display NPC if it is inside the viewable area of screen
+	DONE - EDITOR: must show new NPCs when adding one
+	DONE - EDITOR: must clean npc list when adding new ones to it
+	DONE - EDITOR: creating a new map is erasing the current one
+	DONE - EDIOTR: fix adding new map to combobox - is duplicating entries
+	DONE - nintendo DS stairs animation is too fast
+	DONE - check collision verification - sometimes it is stopping jump 1 pixel plus it should
+	DONE - add multiple colorcycling (list of lists)
+	DONE - add 3 special colors for colorcycling
+	DONE - fix colorcycling
+	DONE - must fix the npc shooting (must shoot when anim_type = anim_stand and resets anim_pos
+	DONE - shots are disappearing much before target (still no good, must re-fix)
+	DONE - make teleport faster
+	DONE - jump attack should last a bit, like the stand attack
+	DONE - sometimes (hard to reproduce), jumping in a staircase makes you go up
+	DONE - when hitting the head, is changing animation type for a moment
+	DONE - player-npc hit not working when players comes from the right side
+	DONE - when hit, sometimes do not return to normal state
+	DONE - add turning to npc movement
+	DONE - change title to "beta 4"
+	DONE - zigzag stoping after a while
+	DONE - crashing when trying to get color number for color-cycling (maybe first time we just use the color code?)
+	DONE - shots must pass stairs
+	DONE - scrollX not working for teleporting/stairs system
+	DONE - can't walk over stairs
+	DONE - when jumping over a stair, not returning to ANIM_STAND
+	DONE - when teleporting on staircase, is changing from ANIM_STAIR to ANIM_JUMP and falling
+	DONE - projectiles underscreen is wrong (must get from +16/+16)
+	DONE - When leaving the staircase, player goes to jump animation instead of stand
+	DONE - sound is too fast and using a lot of CPU in linux
+	DONE - using high CPU when opening audio: SOLUTION - install libsdl1.2debian-pulseaudio
+	DONE - game is not exiting when pressing ESC (problem when using wav file)
+	DONE - tile3 scrollY is wrong sometimes
+	DONE - PS2: Revise SDL_Timer and SDL_Delay, something went wrong after initial sucefull tests
+	DONE - player should not move horizontaly in the stairs, only change shooting directin
+	DONE - ready animation is missing
+	DONE - animations are not working, showing only first frame
+	DONE - being able to shoot when teleporting
+	DONE - must find a way to determine the jump size by the time of button pressed (requires SDL_Timer working on PS2)
+	DONE - hit animation not showing
+	DONE - player should not leave screen (y+)
+	DONE - when hit, can jump in middle air
+	DONE - both players must be in the teleporter position after changing screens (avoid one player being locked out of screen)
+	DONE - open (no-stairs) teleporter not working after locking Y to avoid falling from stairs
+	DONE - joystick1 is moving both players
+	DONE - player is able to leave screen, even if other player is locking it
+	DONE - scrolling with 2 players, goind to left have a problem, should stop when one of the players reach screen edge on right side
+	DONE - when shooting from a stair near a wall, is not creating projectiles (no mote wall hiting)
+	DONE - teleporter not working for one-player mode (after using another one)
+	DONE - shooting from a stair should not make player fall (add ANIM_STAIR_SHOOT)
+	DONE - player can pass NPC without being hit
+	DONE - must check if player is hit to hit again, for both projects and bodies
+	DONE - use time for player being shot
+	DONE - when holding left/right and pressing fire, player falls out of stairs
+
+
+
+	EDITOR:
+	-----------------------------------------------------------------------------------------
+	- windows and linux packages must contain the editor
+	INWORK - editor: allow user to add teleporter to other maps, such as to scroll up/down and boss door
+		 MISSING: using always position zero: if current position have a link, erase it, otherwise, use next free position
+		 MISSING: show it with type (vertical or horizontal) and size
+
+
+	DONE - support for NPC IA
+	DONE - support for NPC shield and shooting
+	DONE - editor: support for multiple Games
+	DONE - editor: support for multiple MAPs
+	DONE - editor: support for placing multiple NPCs
+	DONE - editor: add npc support
+	DONE - editor: add stairs (use locked 2)
+	DONE - editor: allow second level of tiles (this will allow user to create transparent tiles, for stairs, etc)
+	DONE - editor: support for level 3 in map (will be drawn over players)
+	DONE - editor: update map to show link once first part is set
+	DONE - editor: update map and npc list when adding new one
+	DONE - editor: ensure that when ran, creates all game and map files correctly
+	DONE - editor: edit a existing NPC
+	DONE - editor: support to define frames and timing in npc editor
+
+
+
+
+	GAME:
+	-----------------------------------------------------------------------------------------
+
+	INWORK - NPC movement types (no_move, wait, attack, loop, left to right and right to left)
+	INWORK (missing left->right and right->left) - create smooth transitions between two differente stages - like a boss door, or a staircase
+	INWORK - try to put the joystick reading on a thread (used events, but still lacks joy2 support)
+
+	DONE - Fix beta 3 bugs:
+		DONE a) projectiles are clearning the screen in the wrong position (above) - DONE
+		DONE b) sometimes the game freezes (animation still run, but player do not move) - DONE (CheckDelay)
+		DONE c) colision detection have a bug that allows player to "walk in the air" (1) - DONE
+		DONE d) player can fall to the left side of screen (1) - DONE
+	DONE - (1)revise whole collision detection
+		DONE -> when hit the head is changing animation type, shooting in jump, changes animation
+		DONE -> missing parts like hit animation
+		DONE -> npc hit still needs some work
+	DONE - music (2) (missing PS2 and NDS)
+	DONE - sound effects (2) (missing DS)
+	DONE - compile the game for Nintendo DS (no real build yet, just start testing)
+	DONE - load NPCs from the game/map file (need to organize game loading)
+	DONE - remove tile from sprites, this will free up a lot of memory
+	DONE - support for IA ZIG-ZAG
+	DONE - jump must be faster
+	DONE - do not load player 2 sprites if not needed, free another big part of memory
+	DONE - add sound effects for cursor (p1/p2 or boss selection), shooting, hitting enemy, player being hit
+	DONE - add boss selection screen
+	DONE - add boss intro screen (bug with colorcycle)
+	DONE - center image if using NDS resolution (if underscreen > 320x200, adjust)
+	DONE - free npc_list (if exists) and load a new list when loading a new map
+	DONE - change dr. canotus hair to brown
+	DONE - support for level 2 in map
+	DONE - redesign whole game intro (use in-game like graphics)
+	DONE - support for level 3 in map (will be drawn over players)
+	DONE - working staircases
+	DONE - rework teleport system so it is have a flag to be bidirecional and saved in game file instead of map ones
+	DONE - support for teleporter, and lower map size to 200x13 tiles to lower memory usage
+	DONE - press jump in a stair to fall
+	DONE - use ANIM_STAIRS_SEMI when half out of stairs
+	DONE - add some animation using color cycle in intro by switching palette values
+	DONE - make player anim itself when changing screens on a staircase
+	DONE - color-cycling in the background -> moving parts in the background
+	DONE - add graphic (frames) for projectiles
+	DONE - adjust hit to move down faster than to left/right
+	DONE - teleporter must check if both players are on it to move (lock screen to wait for second player)
+	DONE - indicate when a player is blocking the scrolling (using a P1/P2 above it's head)
+
+// beta5
+GAME: must fix platform - player must pass under a 32px vertical space
+GAME: fix PS2 SDL_Timer (see http://forums.ps2dev.org/viewtopic.php?t=2842&highlight=clock+tick)
+GAME: teleport must adjust X position to destiny point
+GAME: clicking on the window X, must close game
+GAME: exec_colorcycle must receive the SDL_Surface that it will change the colormap
+GAME: convert projectiles to list
+GAME: after jumping from a ladder, player is stalled in the wall. we must adjust it's X position if needed, to leave the wall.
+GAME: better jump gravity/physics
+GAME: add in-game menu with sub-menu configuration
+GAME: when can't shoot, player must not remain in the shooting animation frame
+GAME: revise the whole NPC graphics part, there are some bugs when adding more than 10 NPCs to the map
+          OBS: must then pass graphics list, instead of npc list when moving
+GAME: fix zig-zag NPCs behavior
+GAME: fix problem in moving npc leaving "shadow" after being killed
+GAME: add configuration menu
+GAME: NPCs are not moving when changing maps (due to scrollX)
+GAME: projectiles are not hitting player after changing maps
+EDITOR: fill must check against the current level, not level-0
+GAME: colored energy bars to distinguich players
+GAME: check bug on start, that makes the player not move on teleport start
+GAME: adjust sound thread priority in ps2
+GAME: player is falling when shooting in a staircase
+GAME: screen transition is not using the correct position for both players (probally due to scrollX negative)
+GAME: scroll for 2 player-game is not working correctly
+GAME: jump, with joystick only, is very slow
+GAME: Fix NINTENDO DS version to work again (even if slow and buggy)
+GAME/PS2: joystick reading is missing some button hits
+GAME: Implement in-game menu
+GAME: better energy bars
+GAME: must change jump to be more precise with colision (lower the step until 1 and try again)
+GAME: when jump is interrupted (head hit, for example), gravity does not work
+GAME: joystick is not read for intro
+GAME: remove test using graphics form magma man stage

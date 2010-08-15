@@ -1,0 +1,20 @@
+GAME:
+- fix flickering in PS2
+- fix animation frame delay
+- fix left map side when there is no blocking wall on it (shots not being cleared)
+- add an test NPC
+- make shots hit NPCs
+- add map teleport - free one map, load another, use a temporary region (just of the size of screen) to scroll to the new one
+- add support to staircases (go up/down). must be able to up/down when:
+	a) is over the stairs by no more than 10 px
+	b) p3.x (left-bottom) is in and p4.x (right bottom) is inside the stair p1.x-p2.x, or p3.x out and p4.x in
+	c) both p3.x and p4.x are out, but stair p1.x-p2.x are inside p3.x-p4.x
+- player sprite must me considered 16x24 for colission, when sliding, 16x24
+- implement Nintendo DS Makefiles
+	
+EDITOR:
+- allow the user to hold the mouse button to draw
+- when in edit graphic mode, hide locks
+- when in edit lock mode, show graphics as gray
+- add fill tool
+- add line tool (only vertical and horizontal for now)

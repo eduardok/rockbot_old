@@ -1,0 +1,21 @@
+HOW TO COMPILE THE PROJECT
+----------------------------------------------
+
+Windows:
+- install Qt4 open-source with mingw
+- open Qt command prompt
+- type qmake
+- type make
+
+Linux:
+- have Qt4 with dev packages
+- console
+- type qmake-qt4 (or just qmake if your distro is Qt4 only)
+- type make
+
+
+Have fun!
+
+------------------
+Iuri Fiedoruk
+

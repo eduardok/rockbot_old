@@ -1,0 +1,86 @@
+------------------------------------------------
+             PROJECT STRUCTURE
+------------------------------------------------
+Rockbot is divided in two parts:
+- game is the game-engine and based in C and SDL
+- editor is the map, npc and stage editor, based in C++ with Qt
+Both are edited with QtCreator and have a project made with it, we recommend it as editor, but you can also use any other, since we provide makefiles, 
+thus, the IDE use is not mandatory.
+
+------------------------------------------------
+              DATA STRUCTURE
+------------------------------------------------
+the project files are stored in the bin/data folder, with the following structure:
+
+fonts - holds the ttf fonts used in the game
+
+game - holds game, npcs, maps and stages files
+	game_XXX - XXX is the number of a game, starting with 001. Holds npc and map files
+	maps - legacy, must be removed
+
+images - hold all images, sprites and tilesets
+	backgrounds - holds image files for backgrounds like menu and stage select
+	faces - npc, character and boss faces and logos
+	scenes - scenes for intro and storyline
+	sprites - holds sprites for players, enemies and bosses
+		enemies - should be dropped, and all files must be in it's parent folder
+	tilesets - contains scenary tilesets and special effects animation (ready message, explosions) graphics
+		npc - must be removed
+
+img - legacy images folder, to be removed after adjusting the code to use new images folder
+
+music - holds mp3 background music files and it's licenses notes
+
+sfx - holds wave sound files with sound effects
+
+------------------------------------------------
+            GAME SOURCE STRUCTURE
+------------------------------------------------
+
+Makefile.nds - Nintendo DS makefile, currently dropped.
+
+Makefile.ps2 - PS2 makefile. Please use the build_ps2.sh script instead of make.
+
+Makefile.xbox - XBox makefile, currently non used as we still need to finish building the SDK
+
+SJPCM.irx, SJPCM.s, cdvd.h, cdvd.irx, cdvd.s, cdvd_rpc.c, cdvd_rpc.h, cosmitoFileIO.c, mixer.c - modules for Playstation 2 build.
+
+mixer_thread.c, ps2_modules.h, ps2hdd.irx, sjpcm_rpc.c (can be removed?), usbd.irx, usbd.s, usbhdfsd.irx, usbhdfsd.s - modules for Playstation 2 build.
+
+common.h - this file concentrates functions that are used in game. most of those must be placed in other files once stabilized API.
+
+editor.c, editor.h - legacy files, must be removed.
+
+game.c - main program file.
+
+game.h - contains game logic functions, such as colision detection, teleport and player movement.
+
+graphics.h - contains drawing methods such as map teleport transition, sprites and scrolling
+
+input.h - keyboard and joystick support
+
+intro.h - contains cutscenes
+
+linconio.h - replacement for conio.h (DOS/Windows) for Linux. Mas be removed.
+
+projectiles.h - methods for shots moviment and colision
+
+rockbot.cbp - old code::blocks project file, must be removed.
+
+rockbot.config, rockbot.depend, rockbot.files, rockbot.layout, rockbot.pro, rockbot.pro.user - QtCreator project files
+
+runps2.sh - was moved to bin, must be removed
+
+sprites1.c - legacy file, must be removed.
+
+include/config.h - contains configuration menu
+
+include/cosmitoFileIO.h, include/mixer.h, include/mixer_thread.h, include/sjpcm.h - used for ps2 miver (duplicated, remove the one from game folder)
+
+include/editor_pallete.h - legacy, must remove
+
+include/headers - must contain all function declaration to avoid non-declared or duplication of function declaration
+
+include/sound.h, include/sound_nds.h, include/sound_ps2.h - sound mixer functions
+
+types - contains defines, structs and variable declarations exchanged between files

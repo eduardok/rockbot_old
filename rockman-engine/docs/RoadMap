@@ -1,0 +1,128 @@
+Graphics RoadMap:
+
+- create complete frameset for ape bot
+- revise/create faces for all bosses (32x32)
+INWORK - revise logo
+
+
+Beta 5:
+-----------------------------
+		   INWORK
+-----------------------------
+
+
+-----------------------------
+			DONE
+-----------------------------
+GAME: intangible player after being hit for 2 seconds
+GAME: better intro, add color-cycling and better effects on stage selection
+GAME: dialogs (missing copy of the background)
+GAME: boss doors using map.locked
+GAME: horizontal transition of screens
+GAME: reflect shots that hit shield
+GAME: implement soil types (ice, moving, etc) using map.locked
+GAME: improve boss doors disappearing/reappearing
+
+-----------------------------
+			TODO
+-----------------------------
+(urgent)
+GAME: NPC information such as can_shoot and is_boss must be removed from map
+GAME: fix second joystick support (PS2)
+GAME: on transition, if a side near the stairs is all locked, move the screen to the other side, to not show the content after the wall
+GAME: wall must scroll lock, only if it is on players moving direction
+GAME: make player blink, when intangible
+
+(high)
+GAME: player2 is able to leave the screen visible area
+GAME: turning of NPC to shoot player is wrong, changing side when not needed
+GAME: sometimes, player is hit by a shot above it (problem with scrollY)
+GAME: level-3 tiles are misplaced a bit (probally due to screen starting as less than 10px position)
+
+(medium)
+GAME: optimize by allocating the p1 and p2 objects just once
+EDITOR: Dialogs
+GAME: fix strange gray area appearing when shooting
+GAME: improve adjustments for jump and hit physics
+EDITOR: enable teleport size/orientation in editor
+EDITOR: show teleport with size and vertical/horitontal direction
+GAME: add colision verification for ZIG-ZAG NPC behavior
+GAME: support for map-teleport with size/orientation
+GAME: NPC also should not move when showing ready message
+GAME: implement select player option when user picked the "1 player" option
+MISC: start creation of a manual for the game and editor
+GAME: solve the one pixel colision problem in platforms (add an extra test with y-1)
+GAME: revamp all the NPC sprites part, make it more generic, and reuse sprites and frames
+GAME: implement music in playstation 2 (use MIDI or MP3?)
+GAME: player must be intangible for 2 seconds after being hit
+GAME: NPC can only execute actions that are defined in the frameset list (if do not have jump frame, can't jump)
+GAME: killed NPC must return when player changes map
+GAME: PS2-SDL: revise timers to support threads
+GAME: make win32 version run from anywhere
+GAME: better "loading": make it generic and allows two types:
+	a) scroll messages up when new one reaches bottom of screen (for debug)
+	b) loading with a progress bar and showing only the last message
+GAME: add loading for all elements, including intro screen and such
+GAME: add screen to select game
+GAME: if the whole screen height have a wall (locked) ahead, do not scroll beyond it, hidding the contents after it (this will allow us to use more regions in the map)
+
+(low)
+GAME: remember the music that is being played, so we can resume it later, if needed, when stopped
+GAME: free more variables
+GAME: implement Nintendo DS sound fx
+GAME: implement sound in nintendo DS
+GAME: try porting game to xbox
+GAME: hit animation must foolow player/npc coordinates (add a owner_player and owner_npc property)
+
+
+
+
+	EDITOR:
+	-----------------------------------------------------------------------------------------
+	- allow user to set p1 and p2 starting position (must be in same screen area - MAX_W and MAX_H of distance)
+	- ask to save on exit
+	- zoom (1/2x, 2x, 4x)
+	- add line tool
+	- add support for different NPC projectile graphics
+	- NPC shooting types (3 way-shoot, etc)
+    - add a toolbox with options depending of the selected tool
+    - add spikes (locked 3)
+    - add pit (locked 4)
+    - place power-ups
+    - determine several color-cycling for each map
+    - editor for intro (a image with n messages, if n5, reset text) with color-cycling (to/from color, black/white)
+    - integrate maps into a stage
+    - user can pick a music for each stage
+    - allow to link each boss in boss-selection screen to a stage
+    - define background and points to stages for final boss (doctor)
+    - show elements blinking on mouseover when placing it on the map
+    - objects creator (platforms, doors, ...)
+    - alow to add platform (list of types like fall, zig-zag, U, up-down, vanish, block, etc)
+
+
+Beta 6:
+
+	EDITOR:
+	-----------------------------------------------------------------------------------------
+    - editor: place power ups in map
+    - editor: dialogs (face, text) in each stage start, boss and ending
+    - editor: support for an intro stage before the boss selecion
+    - editor: revise everything to freeze the game file  format
+
+	GAME:
+	-----------------------------------------------------------------------------------------
+    - got weapon screen
+    - player death
+    - power-ups dropped by enemies
+    - save game/continue
+    - double shot for betabod
+    - charged shot for tockbot
+    - longer jump for rockbot
+    - boss IA (create patterns of movement, like toadman)
+    - dash/slash
+    - mac port (http://guide.macports.org/)
+    - take a look into porting to PSP (http://www.pcsp-emu.com/news.php)
+    - create a new animation system, that have individual frames with duration [add_frame(posx, duration)]
+
+RC-1:
+    - bugfixing

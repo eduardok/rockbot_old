@@ -1,0 +1,9 @@
+Changelog
+-------------------------------
+
+0.1 version:
+- draw sprites
+- move sprites in the screen
+- add jump
+- during jump, do not accept more jump (spacebar) commands
+- add animations to movement
